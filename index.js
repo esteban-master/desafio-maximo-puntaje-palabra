@@ -44,7 +44,6 @@ function maximoPuntajeDePalabra(palabra) {
       }
     }
   );
-
   return darPuntajeACadaLetra.reduce((acc, [_, puntajeLetra]) => {
     return acc + puntajeLetra;
   }, 0);
