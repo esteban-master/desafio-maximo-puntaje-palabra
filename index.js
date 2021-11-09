@@ -1,3 +1,24 @@
+var inquirer = require("inquirer");
+
+// Terminal
+inquirer
+  .prompt([
+    {
+      name: "palabra",
+      message: "Indica la palabra que quieres obtener el puntaje?",
+      type: "input",
+      validate: (answer) =>
+        answer.length > 0 ? true : "Al menos 1 carácter por palabra",
+    },
+  ])
+  .then(({ palabra }) => {
+    console.log(`${palabra}: `, maximoPuntajeDePalabra(palabra));
+  })
+  .catch((error) => {
+    console.log(error);
+  });
+
+// Funcion
 function maximoPuntajeDePalabra(palabra) {
   const palabraSplit = palabra.trim().split("");
   const puntajeMasAlto = 26;
@@ -29,9 +50,9 @@ function maximoPuntajeDePalabra(palabra) {
   }, 0);
 }
 
-console.log("A: ", maximoPuntajeDePalabra("A"));
-console.log("AB: ", maximoPuntajeDePalabra("AB"));
-console.log("YZ: ", maximoPuntajeDePalabra("YZ"));
-console.log("EEOOO: ", maximoPuntajeDePalabra("EEOOO"));
-console.log("AGENDAPRO: ", maximoPuntajeDePalabra("AGENDAPRO"));
-console.log("FERROCARRIL: ", maximoPuntajeDePalabra("FERROCARRIL"));
+// console.log("A: ", maximoPuntajeDePalabra("A"));
+// console.log("AB: ", maximoPuntajeDePalabra("AB"));
+// console.log("YZ: ", maximoPuntajeDePalabra("YZ"));
+// console.log("EEOOO: ", maximoPuntajeDePalabra("EEOOO"));
+// console.log("AGENDAPRO: ", maximoPuntajeDePalabra("AGENDAPRO"));
+// console.log("FERROCARRIL: ", maximoPuntajeDePalabra("FERROCARRIL"));
