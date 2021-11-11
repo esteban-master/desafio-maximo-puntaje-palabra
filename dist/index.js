@@ -20,11 +20,35 @@ inquirer_1.default
     .catch((error) => {
     console.log(error);
 });
-// Funcion
 function maximoPuntajeDePalabra(palabra) {
-    const palabraSplit = palabra.trim().split("");
     const puntajeMasAlto = 26;
-    const conteoDeLetras = palabraSplit.reduce((acc, letra) => {
+    const conteoDeLetras = contarLetrasPalabra(palabra);
+    const conteoDeLetrasOrdenadasDeMayorAMenor = [
+        ...conteoDeLetras,
+    ].sort(([, conteoA], [, conteoB]) => conteoB - conteoA);
+    const puntajesPorLetra = darPuntajeACadaLetra(conteoDeLetrasOrdenadasDeMayorAMenor, puntajeMasAlto);
+    const sumaTotal = sumarPuntajesLetras(puntajesPorLetra);
+    imprimirPasos({
+        conteoLetras: conteoDeLetras,
+        conteoOrdenado: conteoDeLetrasOrdenadasDeMayorAMenor,
+        puntajesPorLetra,
+        sumaTotal,
+    });
+    return sumaTotal;
+}
+function darPuntajeACadaLetra(letras, puntajeMasAlto) {
+    return letras.map(([letra, total], index) => {
+        if (index === 0) {
+            return [letra, total * puntajeMasAlto];
+        }
+        else {
+            return [letra, total * (puntajeMasAlto - index)];
+        }
+    });
+}
+function contarLetrasPalabra(palabra) {
+    const palabraSplit = palabra.trim().split("");
+    return palabraSplit.reduce((acc, letra) => {
         if (acc.has(letra)) {
             acc.set(letra, acc.get(letra) + 1);
         }
@@ -33,30 +57,17 @@ function maximoPuntajeDePalabra(palabra) {
         }
         return acc;
     }, new Map());
-    const conteoDeLetrasOrdenadasDeMayorAMenor = [
-        ...conteoDeLetras,
-    ].sort(([, conteoA], [, conteoB]) => conteoB - conteoA);
-    const darPuntajeACadaLetra = conteoDeLetrasOrdenadasDeMayorAMenor.map(([letra, total], index) => {
-        if (index === 0) {
-            return [letra, total * puntajeMasAlto];
-        }
-        else {
-            return [letra, total * (puntajeMasAlto - index)];
-        }
-    });
-    console.group("Pasos app:");
-    console.log("1. Conteo letras mas repetidas de palabra: ", conteoDeLetras);
-    console.log("2. Ordenar conteo DESC: ", conteoDeLetrasOrdenadasDeMayorAMenor);
-    console.log("3. Agregar puntaje por letra: ", darPuntajeACadaLetra);
-    console.log("4. Sumar ountaje de letras");
-    console.groupEnd();
-    return darPuntajeACadaLetra.reduce((acc, [_, puntajeLetra]) => {
+}
+function sumarPuntajesLetras(puntajes) {
+    return puntajes.reduce((acc, [_, puntajeLetra]) => {
         return acc + puntajeLetra;
     }, 0);
 }
-// console.log("A: ", maximoPuntajeDePalabra("A"));
-// console.log("AB: ", maximoPuntajeDePalabra("AB"));
-// console.log("YZ: ", maximoPuntajeDePalabra("YZ"));
-// console.log("EEOOO: ", maximoPuntajeDePalabra("EEOOO"));
-// console.log("AGENDAPRO: ", maximoPuntajeDePalabra("AGENDAPRO"));
-// console.log("FERROCARRIL: ", maximoPuntajeDePalabra("FERROCARRIL"));
+function imprimirPasos({ conteoLetras, conteoOrdenado, puntajesPorLetra, sumaTotal, }) {
+    console.group("Pasos app:");
+    console.log("1. Conteo letras mas repetidas de palabra: ", conteoLetras);
+    console.log("2. Ordenar conteo DESC: ", conteoOrdenado);
+    console.log("3. Agregar puntaje por letra: ", puntajesPorLetra);
+    console.log("4. Sumar puntaje de letras: ", sumaTotal);
+    console.groupEnd();
+}

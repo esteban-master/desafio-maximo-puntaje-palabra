@@ -11,7 +11,7 @@ Ejemplo:
 - E = 2
 - O = 3
 
-La letra **"O"** se repite mas veces, lo cual ella tendra el numero mas alto (26), luego en orden se iran agregando los demas puntajes a cada letra:
+La letra **"O"** se repite mas veces, lo cual ella tendra el numero mas alto (26), luego en orden de inicio de la palabra se iran agregando los demas puntajes a cada letra:
 
 - E = 25
 - E = 25
